@@ -18,6 +18,7 @@ export class ImperativeService {
 
   constructor(private http: HttpClient) { }
 
+  // Only used to retrieve the continents the first time
   getContinents(): Observable<string[]> {
     return this.http.get<string[]>(this.continentsApi).pipe(
       tap((continents) => this.continents = continents),
@@ -28,12 +29,13 @@ export class ImperativeService {
     );
   }
 
+  // Selects the continents that must be avaialbe based on the keysContinent filter
   getContinentsToDisplay(): string[] {
     return this.continents
     .filter(cont => this.continentKeys ? cont.includes(this.continentKeys) : cont);
-    // .slice(firstIndex, this.numberOfResultsSelected); Can't put here because it will alter the number of pages that will be displayed
   }
 
+  // Get the continents that will currently be available to the user
   getContinentsToDisplayInPage(): string[] {
     const firstIndex = this.numberOfResultsSelected * this.pageSelected;
     console.log(`numberOfResultsSelected: ${this.numberOfResultsSelected},
@@ -47,8 +49,8 @@ export class ImperativeService {
     return this._resultsNumberList;
   }
 
-  getNumberOfPagesAvailable(): number[] {
-    return Array(Math.ceil(this.getContinentsToDisplay().length / this.numberOfResultsSelected));
+  getNumberOfPages(): number {
+    return Math.ceil(this.getContinentsToDisplay().length / this.numberOfResultsSelected);
   }
 
   setContinentKeys(continentKeys: string) {

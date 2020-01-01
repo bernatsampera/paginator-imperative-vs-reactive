@@ -7,8 +7,12 @@ import { ImperativeService } from '../imperative.service';
   styleUrls: ['./pagination-imperative.component.scss']
 })
 export class PaginationImperativeComponent implements OnInit {
+  // Used to call the function updateContinents in the parent
   @Output() pageSelectedEmitter = new EventEmitter();
-  pagesAvailable: number[];
+  // Array Type and number of pages to display to to make the *ngFor loop
+  Arr = Array;
+  @Input() numberOfPages: number;
+  // Page selected
   pageSelected: number;
 
   constructor(
@@ -17,22 +21,11 @@ export class PaginationImperativeComponent implements OnInit {
 
   ngOnInit() {
     this.pageSelected = this.imperativeService.getPageSelected();
-    // Wrong!!!!!!!!!!!
-    setTimeout(() => {
-      this.getNumberOfPagesAvailable();
-    }, 1500);
   }
 
   selectPage(pageSelected: number) {
     this.pageSelected = pageSelected;
     this.imperativeService.setPageSelected(pageSelected);
     this.pageSelectedEmitter.emit('');
-    this.getNumberOfPagesAvailable();
   }
-
-  public getNumberOfPagesAvailable() {
-    this.pagesAvailable = this.imperativeService.getNumberOfPagesAvailable();
-    this.pageSelected = this.imperativeService.getPageSelected();
-  }
-
 }
