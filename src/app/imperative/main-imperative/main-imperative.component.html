@@ -1,0 +1,23 @@
+<h2 class="title">Imperative</h2>
+
+<div class="container">
+  <mat-form-field >
+    <input matInput placeholder="Search Continent" [formControl]="continentControl" autocomplete="off">
+  </mat-form-field>
+
+  <mat-list role="list" *ngIf="continents" >
+    <mat-list-item *ngFor="let continent of continents" > {{ continent }} </mat-list-item>
+  </mat-list>
+
+  <mat-card>
+    <mat-card-subtitle> Select the number of Results per page </mat-card-subtitle>
+    <app-results-number-selector-imperative (numberOfResultsSelectedEmitter)="updateContinents()"></app-results-number-selector-imperative>
+  </mat-card>
+  <br />
+  <mat-card >
+    <mat-card-subtitle > Pages </mat-card-subtitle>
+    <app-pagination-imperative (pageSelectedEmitter)="updateContinents()" ></app-pagination-imperative>
+  </mat-card>
+
+</div>
+

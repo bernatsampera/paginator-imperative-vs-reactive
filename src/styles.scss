@@ -1,0 +1,34 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body {
+  height: 100%;
+  background: gray;
+}
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 700px;
+  margin: auto;
+}
+
+.title {
+  position: absolute;
+  left: 20px;
+}
+
+button.mat-flat-button {
+  margin: 0 10px;
+}
+
+.selected {
+    background-color: gold !important;
+    color: red !important;
+}
+
+// Removes the padding top from the list
+.mat-list-base {
+   padding: 0px !important;
+}
