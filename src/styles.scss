@@ -14,9 +14,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin: auto;
 }
 
-.title {
-  position: absolute;
-  left: 20px;
+.mat-tab-link.active {
+  background: white;
+  color: black;
 }
 
 button.mat-flat-button {

@@ -1,1 +1,9 @@
-<p>results-number-selector-reactive works!</p>
+<button
+  mat-flat-button
+  color="accent"
+  *ngFor="let number of getNumberOfResultsList()"
+  [ngClass]="{'selected': number === (numberOfResultsSelected | async) }"
+  (click)="selectNumberOfResults(number)"
+>
+  {{ number }}
+</button>

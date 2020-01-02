@@ -1,5 +1,3 @@
-<h2 class="title">Imperative</h2>
-
 <div class="container">
   <mat-form-field >
     <input matInput placeholder="Search Continent" [formControl]="continentControl" autocomplete="off">
@@ -18,6 +16,5 @@
     <mat-card-subtitle > Pages </mat-card-subtitle>
     <app-pagination-imperative (pageSelectedEmitter)="updateContinents()" [numberOfPages]="numberOfPages" ></app-pagination-imperative>
   </mat-card>
-
 </div>
 

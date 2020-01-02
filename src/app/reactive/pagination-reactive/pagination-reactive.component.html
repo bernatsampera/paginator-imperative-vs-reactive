@@ -1,1 +1,9 @@
-<p>pagination-reactive works!</p>
+<button
+  mat-flat-button
+  color="accent"
+  *ngFor="let page of Arr(pagesAvailable | async); let i = index"
+  [ngClass]="{ 'selected': i === (pageSelected | async) }"
+  (click)="selectPage(i)"
+>
+  {{ i + 1 }}
+</button>

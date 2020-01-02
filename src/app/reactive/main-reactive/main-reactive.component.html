@@ -1,1 +1,20 @@
-<p>main-reactive works!</p>
+<div class="container">
+  <mat-form-field >
+    <input matInput placeholder="Search Continent" [formControl]="continentControl" autocomplete="off">
+  </mat-form-field>
+
+  <mat-list role="list" *ngIf="continents$ | async as continents" >
+    <mat-list-item *ngFor="let continent of continents" > {{ continent }} </mat-list-item>
+  </mat-list>
+
+  <mat-card>
+    <mat-card-subtitle> Select the number of Results per page </mat-card-subtitle>
+    <app-results-number-selector-reactive ></app-results-number-selector-reactive>
+  </mat-card>
+  <br />
+  <mat-card >
+    <mat-card-subtitle > Pages </mat-card-subtitle>
+    <app-pagination-reactive ></app-pagination-reactive>
+  </mat-card>
+</div>
+
