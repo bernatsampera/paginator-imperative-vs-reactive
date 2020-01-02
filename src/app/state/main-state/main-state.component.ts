@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-main-state',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-state.component.scss']
 })
 export class MainStateComponent implements OnInit {
+  continentControl = new FormControl();
 
   constructor() { }
 

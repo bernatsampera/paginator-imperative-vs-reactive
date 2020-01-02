@@ -9,14 +9,16 @@ import { Observable } from 'rxjs';
 })
 export class ResultsNumberSelectorReactiveComponent implements OnInit {
 
-  numberOfResultsSelected: Observable<number> = this.reactiveService.numberOfResultsSelected$;
+  numberOfResultsSelected: number;
 
   constructor(private reactiveService: ReactiveService) { }
 
   ngOnInit() {
+    this.selectNumberOfResults(7);
   }
 
   selectNumberOfResults(numberOfResults: number): void {
+    this.numberOfResultsSelected = numberOfResults;
     this.reactiveService.selectNumberOfResults(numberOfResults);
   }
 

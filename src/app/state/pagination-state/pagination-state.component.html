@@ -1,1 +1,9 @@
-<p>pagination-state works!</p>
+<button
+  mat-flat-button
+  color="accent"
+  *ngFor="let page of [1,2,3]; let i = index"
+  [ngClass]="{ 'selected': i === (null | async) }"
+  (click)="null"
+>
+  {{ i + 1 }}
+</button>

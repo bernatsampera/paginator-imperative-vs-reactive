@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { combineLatest, Observable, BehaviorSubject } from 'rxjs';
-import { tap, map, filter } from 'rxjs/operators';
+import { combineLatest, Observable, BehaviorSubject, of } from 'rxjs';
+import { tap, map, filter, switchMap, catchError, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,45 +10,44 @@ export class ReactiveService {
   // Constant
   private _continentsUrl = '/api/continents';
   private _numberOfResultsList = [1, 3, 5, 7];
-  private _initialNumberOfResults = 7;
-  private _initialPageSelected = 0;
+  private _initialNumberOfResults;
+  private _initialPage = 0;
 
   // Subjects
   private _keysContinentAction$ = new BehaviorSubject<string>('');
   private _numberOfResultsSelectAction$ = new BehaviorSubject<number>(this._initialNumberOfResults);
-  private _pageSelectAction$ = new BehaviorSubject<number>(this._initialPageSelected);
+  private _pageSelectAction$ = new BehaviorSubject<number>(this._initialPage);
 
   // Private Observables
-  private _continents$ = this.http.get<string[]>(this._continentsUrl);
-
-  private _continentsFiltered$: Observable<string[]> = combineLatest([
-    this._continents$,
-    this._keysContinentAction$
-  ]).pipe(
-    map(
-        ([continents, keys]: [string[], string]) => continents.filter(c => c.includes(keys))
-    )
+  private _continents$ = this.http.get<string[]>(this._continentsUrl).pipe(
+    shareReplay(1)
   );
 
   // Public Observables
-  pageSelected$: Observable<number> = this._pageSelectAction$;
-  numberOfResultsSelected$: Observable<number> = this._numberOfResultsSelectAction$;
-
-  pagesAvailable$: Observable<number> = combineLatest([
-    this._continentsFiltered$,
+  pagesAvailable$: Observable<number> = combineLatest(
+    this._keysContinentAction$,
     this._numberOfResultsSelectAction$
-  ]).pipe(
-    map(([continents, numberOfResults]) => Math.ceil(continents.length / numberOfResults))
+  ).pipe(
+    switchMap(
+      ([keysContinent, numberOfResults]: [string, number]) =>
+        this._continents$.pipe(
+          map(continents => continents.filter(continent => continent.includes(keysContinent))),
+          map((continents) => Math.ceil(continents.length / numberOfResults))
+        )
+    )
   );
 
-  continentsInPage$: Observable<string[]> = combineLatest([
-    this._continentsFiltered$,
+  continentsInPage$: Observable<string[]> = combineLatest(
+    this._keysContinentAction$,
     this._numberOfResultsSelectAction$,
     this._pageSelectAction$
-  ]).pipe(
-    map(
-        ([continents, numberOfResults, page]: [string[], number, number]) =>
-          this._getContinentsInPage(continents, numberOfResults, page) as string[]
+  ).pipe(
+    switchMap(
+        ([keysContinent, numberOfResults, page]: [string, number, number]) =>
+          this._continents$.pipe(
+            map(continents => continents.filter(continent => continent.includes(keysContinent))),
+            map(continents => this._getContinentsInPage(continents, numberOfResults, page) as string[])
+          )
     )
   );
 
@@ -66,7 +65,7 @@ export class ReactiveService {
   // Public function
   updateKeysContinent(keys: string | null): void {
     this._keysContinentAction$.next(keys);
-    this.selectPage(this._initialPageSelected);
+    this.selectPage(this._initialPage);
   }
 
   selectPage(page: number | null): void {
@@ -75,7 +74,7 @@ export class ReactiveService {
 
   selectNumberOfResults(numberOfResults: number | null): void {
     this._numberOfResultsSelectAction$.next(numberOfResults);
-    this.selectPage(this._initialPageSelected);
+    this.selectPage(this._initialPage);
   }
 
   getNumberOfResultsList(): number[] {

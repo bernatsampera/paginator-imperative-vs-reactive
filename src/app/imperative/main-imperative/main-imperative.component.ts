@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ImperativeService } from '../imperative.service';
 import { Subscription } from 'rxjs';
@@ -8,7 +8,8 @@ import { PaginationImperativeComponent } from '../pagination-imperative/paginati
 @Component({
   selector: 'app-main-imperative',
   templateUrl: './main-imperative.component.html',
-  styleUrls: ['./main-imperative.component.scss']
+  styleUrls: ['./main-imperative.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainImperativeComponent implements OnInit {
   // paginationComponent takes an instance of the component and is used to call the update number of pages method

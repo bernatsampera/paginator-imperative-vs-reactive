@@ -1,1 +1,9 @@
-<p>results-number-selector-state works!</p>
+<button
+  mat-flat-button
+  color="accent"
+  *ngFor="let number of [1,2,3]"
+  [ngClass]="{'selected': number === (null | async) }"
+  (click)="null"
+>
+  {{ number }}
+</button>

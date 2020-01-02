@@ -4,6 +4,8 @@ import { ResultsNumberSelectorStateComponent } from './results-number-selector-s
 import { MainStateComponent } from './main-state/main-state.component';
 import { PaginationStateComponent } from './pagination-state/pagination-state.component';
 import { Routes, RouterModule } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes  = [
   { path: '', component: MainStateComponent}
@@ -13,7 +15,9 @@ const routes: Routes  = [
   declarations: [ResultsNumberSelectorStateComponent, MainStateComponent, PaginationStateComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    SharedModule,
+    ReactiveFormsModule
   ]
 })
 export class StateModule { }

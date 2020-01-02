@@ -10,14 +10,16 @@ import { Observable } from 'rxjs';
 export class PaginationReactiveComponent implements OnInit {
   Arr = Array;
   pagesAvailable: Observable<number> = this.reactiveService.pagesAvailable$;
-  pageSelected: Observable<number> = this.reactiveService.pageSelected$;
+  pageSelected: number;
 
   constructor(private reactiveService: ReactiveService) { }
 
   ngOnInit() {
+    this.selectPage(0);
   }
 
   selectPage(page: number): void {
+    this.pageSelected = page;
     this.reactiveService.selectPage(page);
   }
 }

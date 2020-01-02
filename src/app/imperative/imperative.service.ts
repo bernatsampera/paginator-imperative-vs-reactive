@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { of, Observable } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +22,7 @@ export class ImperativeService {
   getContinents(): Observable<string[]> {
     return this.http.get<string[]>(this.continentsApi).pipe(
       tap((continents) => this.continents = continents),
+      shareReplay(1),
       catchError((err) => {
         console.error(err);
         return of(null);
@@ -38,9 +39,9 @@ export class ImperativeService {
   // Get the continents that will currently be available to the user
   getContinentsToDisplayInPage(): string[] {
     const firstIndex = this.numberOfResultsSelected * this.pageSelected;
-    console.log(`numberOfResultsSelected: ${this.numberOfResultsSelected},
-    pageSelected: ${this.pageSelected}, continents: ${this.getContinentsToDisplay()}
-    firstIndex: ${firstIndex}`);
+    // console.log(`numberOfResultsSelected: ${this.numberOfResultsSelected},
+    // pageSelected: ${this.pageSelected}, continents: ${this.getContinentsToDisplay()}
+    // firstIndex: ${firstIndex}`);
     return this.getContinentsToDisplay()
     .slice(firstIndex, firstIndex + this.numberOfResultsSelected);
   }
