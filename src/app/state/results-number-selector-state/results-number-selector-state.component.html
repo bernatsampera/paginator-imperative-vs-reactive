@@ -1,9 +1,9 @@
 <button
   mat-flat-button
   color="accent"
-  *ngFor="let number of [1,2,3]"
-  [ngClass]="{'selected': number === (null | async) }"
-  (click)="null"
+  *ngFor="let number of numberOfResultsList"
+  [ngClass]="{'selected': number === (numSelected | async) }"
+  (click)="selectNumberOfResults(number)"
 >
   {{ number }}
 </button>

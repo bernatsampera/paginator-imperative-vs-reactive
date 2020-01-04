@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { StateService } from '../state.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pagination-state',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PaginationStateComponent implements OnInit {
 
-  constructor() { }
+  Arr = Array;
+  pagesAvailable$: Observable<number> = this.stateService.pagesAvailable$;
+  selectedPage: Observable<number> = this.stateService.page$;
+
+  constructor(
+    private stateService: StateService
+  ) { }
 
   ngOnInit() {
+  }
+
+  selectPage(page: number): void {
+    this.stateService.selectPage(page);
   }
 
 }

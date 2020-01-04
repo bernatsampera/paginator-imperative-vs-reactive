@@ -1,9 +1,9 @@
 <button
   mat-flat-button
   color="accent"
-  *ngFor="let page of [1,2,3]; let i = index"
-  [ngClass]="{ 'selected': i === (null | async) }"
-  (click)="null"
+  *ngFor="let page of Arr(pagesAvailable$ | async); let i = index"
+  [ngClass]="{ 'selected': i === (selectedPage | async) }"
+  (click)="selectPage(i)"
 >
   {{ i + 1 }}
 </button>

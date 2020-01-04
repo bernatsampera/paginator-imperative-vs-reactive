@@ -14,7 +14,6 @@
   </mat-card>
 
   <mat-list role="list" *ngIf="true" >
-    <mat-list-item *ngFor="let continent of [1,2,3]" > {{ continent }} </mat-list-item>
+    <mat-list-item *ngFor="let continent of continents$ | async" > {{ continent }} </mat-list-item>
   </mat-list>
 </div>
-
