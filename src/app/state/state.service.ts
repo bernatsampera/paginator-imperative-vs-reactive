@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, combineLatest, Subject, merge, Observable, pipe, UnaryFunction } from 'rxjs';
-import { tap, map, startWith, scan, shareReplay, pluck, distinctUntilChanged } from 'rxjs/operators';
+import { tap, map, startWith, scan, shareReplay, pluck, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 interface PaginatorState {
   searchKeys: string;
@@ -18,7 +18,8 @@ enum PaginatorStateKeys {
 @Injectable({
   providedIn: 'root'
 })
-export class StateService {
+export class StateService implements OnDestroy{
+  private onDestroy$ = new Subject();
   private continentsUrl = '/api/continents';
   private continents$: Observable<string[]> = this.http.get<string[]>(this.continentsUrl).pipe(
     tap(console.log),
@@ -52,8 +53,6 @@ export class StateService {
   numberOfResults$ = this.paginatorState$.pipe(this.queryChange<PaginatorState, number>(PaginatorStateKeys.numberOfResults));
   page$ = this.paginatorState$.pipe(this.queryChange<PaginatorState, number>(PaginatorStateKeys.page));
 
-  constructor(private http: HttpClient) { }
-
   updateContinents$ = combineLatest([
     this.keysSearch$,
     this.numberOfResults$,
@@ -83,6 +82,13 @@ export class StateService {
       )
     );
 
+  constructor(private http: HttpClient) { }
+
+  ngOnDestroy() {
+    this.onDestroy$.next();
+  }
+
+
   // Private Functions
   private getContinentsInPage = (continents: string[], numberOfResults: number, page: number) =>
     continents.slice(this.getFirstContinent(numberOfResults, page), this.getLastContinent(numberOfResults, page))
@@ -102,10 +108,6 @@ export class StateService {
 
   public selectNumberOfResults(num: number | null): void {
     this.numberOfResultsSelectAction$.next(num);
-  }
-
-  public updateSearchKeys(str: string | null): void {
-    this.searchKeysAction$.next(str);
   }
 
 }
