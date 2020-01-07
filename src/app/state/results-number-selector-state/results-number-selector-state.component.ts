@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { StateService } from '../state.service';
 import { Observable } from 'rxjs';
 
@@ -7,19 +7,17 @@ import { Observable } from 'rxjs';
   templateUrl: './results-number-selector-state.component.html',
   styleUrls: ['./results-number-selector-state.component.scss']
 })
-export class ResultsNumberSelectorStateComponent implements OnInit {
-  numberOfResultsList = [1, 3, 5, 7];
-  numSelected: Observable<number> = this.stateService.numberOfResults$;
+export class ResultsNumberSelectorStateComponent {
 
-  constructor(
-    private stateService: StateService
-  ) { }
+  @Input() numberOfResultsList: Array<number>;
+  @Input() numberSelected$: Observable<number>;
 
-  ngOnInit() {
-  }
+  @Output() selectNumberEmitter: EventEmitter<number> = new EventEmitter();
+
+  constructor() { }
 
   selectNumberOfResults(num: number){
-    this.stateService.selectNumberOfResults(num);
+    this.selectNumberEmitter.emit(num);
   }
 
 }

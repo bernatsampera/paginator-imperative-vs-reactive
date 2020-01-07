@@ -38,8 +38,14 @@ export class StateService implements OnDestroy{
   pageSelectAction$ = new Subject<number>();
 
   paginatorCommands$ = merge(
-    this.searchKeysAction$.pipe(map(str => ({ searchKeys: str }))),
-    this.numberOfResultsSelectAction$.pipe(map(n => ({ numberOfResults: n }))),
+    this.searchKeysAction$.pipe(
+      tap(() => this.pageSelectAction$.next(0)),
+      map(str => ({ searchKeys: str })),
+    ),
+    this.numberOfResultsSelectAction$.pipe(
+      tap(() => this.pageSelectAction$.next(0)),
+      map(n => ({ numberOfResults: n })),
+    ),
     this.pageSelectAction$.pipe(map(n => ({ page: n })))
   );
 

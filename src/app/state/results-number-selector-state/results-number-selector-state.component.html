@@ -2,7 +2,7 @@
   mat-flat-button
   color="accent"
   *ngFor="let number of numberOfResultsList"
-  [ngClass]="{'selected': number === (numSelected | async) }"
+  [ngClass]="{'selected': number === (numberSelected$ | async) }"
   (click)="selectNumberOfResults(number)"
 >
   {{ number }}

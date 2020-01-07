@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { StateService } from '../state.service';
 import { Observable } from 'rxjs';
 
@@ -7,21 +7,18 @@ import { Observable } from 'rxjs';
   templateUrl: './pagination-state.component.html',
   styleUrls: ['./pagination-state.component.scss']
 })
-export class PaginationStateComponent implements OnInit {
+export class PaginationStateComponent {
 
   Arr = Array;
-  pagesAvailable$: Observable<number> = this.stateService.pagesAvailable$;
-  selectedPage: Observable<number> = this.stateService.page$;
+  @Input() pagesAvailable$: Observable<number>;
+  @Input() selectedPage$: Observable<number>;
 
-  constructor(
-    private stateService: StateService
-  ) { }
+  @Output() selectPageEmitter = new EventEmitter<number>();
 
-  ngOnInit() {
-  }
+  constructor( ) { }
 
   selectPage(page: number): void {
-    this.stateService.selectPage(page);
+    this.selectPageEmitter.emit(page);
   }
 
 }

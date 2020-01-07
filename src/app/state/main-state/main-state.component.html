@@ -5,12 +5,12 @@
 
   <mat-card>
     <mat-card-subtitle> Select the number of Results per page </mat-card-subtitle>
-    <app-results-number-selector-state ></app-results-number-selector-state>
+    <app-results-number-selector-state [numberOfResultsList]="numberOfResultsList" [numberSelected$]="numberSelected$" (selectNumberEmitter)="selectNumber($event)" ></app-results-number-selector-state>
   </mat-card>
   <br />
   <mat-card >
-    <mat-card-subtitle > Pages </mat-card-subtitle>
-    <app-pagination-state ></app-pagination-state>
+    <mat-card-subtitle> Pages </mat-card-subtitle>
+    <app-pagination-state  [pagesAvailable$]="pagesAvailable$" [selectedPage$]="selectedPage$" (selectPageEmitter)="selectPage($event)" ></app-pagination-state>
   </mat-card>
 
   <mat-list role="list" *ngIf="true" >

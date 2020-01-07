@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { StateService } from '../state.service';
 import { tap, publish } from 'rxjs/operators';
-import { ConnectableObservable } from 'rxjs';
+import { ConnectableObservable, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-main-state',
@@ -10,8 +10,17 @@ import { ConnectableObservable } from 'rxjs';
   styleUrls: ['./main-state.component.scss']
 })
 export class MainStateComponent implements OnInit {
+  // Main
   continentControl = new FormControl();
   continents$ = this.stateService.updateContinents$;
+
+  // Pagination
+  pagesAvailable$: Observable<number> = this.stateService.pagesAvailable$;
+  selectedPage$: Observable<number> = this.stateService.page$;
+
+  // Number Of Results
+  numberOfResultsList: Array<number> = [1, 3, 5, 7];
+  numberSelected$: Observable<number> = this.stateService.numberOfResults$;
 
   constructor(
     private stateService: StateService
@@ -27,5 +36,11 @@ export class MainStateComponent implements OnInit {
   }
 
 
+  selectPage(page: number) {
+    this.stateService.pageSelectAction$.next(page);
+  }
 
+  selectNumber(num: number) {
+    this.stateService.numberOfResultsSelectAction$.next(num);
+  }
 }
