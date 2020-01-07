@@ -1,16 +1,16 @@
-<div class="container">
+<div class="container" *ngIf="state$ | async as vm">
   <mat-form-field >
     <input matInput placeholder="Search Continent" [formControl]="continentControl" autocomplete="off" >
   </mat-form-field>
 
   <mat-card>
     <mat-card-subtitle> Select the number of Results per page </mat-card-subtitle>
-    <app-results-number-selector-state [numberOfResultsList]="numberOfResultsList" [numberSelected$]="numberSelected$" (selectNumberEmitter)="selectNumber($event)" ></app-results-number-selector-state>
+    <app-results-number-selector-state [numberOfResultsList]="numberOfResultsList" [numberSelected]="vm.numberOfResults" (selectNumberEmitter)="selectNumber($event)" ></app-results-number-selector-state>
   </mat-card>
   <br />
   <mat-card >
     <mat-card-subtitle> Pages </mat-card-subtitle>
-    <app-pagination-state  [pagesAvailable$]="pagesAvailable$" [selectedPage$]="selectedPage$" (selectPageEmitter)="selectPage($event)" ></app-pagination-state>
+    <app-pagination-state  [pagesAvailable$]="pagesAvailable$" [selectedPage]="vm.page" (selectPageEmitter)="selectPage($event)" ></app-pagination-state>
   </mat-card>
 
   <mat-list role="list" *ngIf="true" >

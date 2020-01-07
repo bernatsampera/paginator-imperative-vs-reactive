@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class ResultsNumberSelectorStateComponent {
 
   @Input() numberOfResultsList: Array<number>;
-  @Input() numberSelected$: Observable<number>;
+  @Input() numberSelected: Observable<number>;
 
   @Output() selectNumberEmitter: EventEmitter<number> = new EventEmitter();
 

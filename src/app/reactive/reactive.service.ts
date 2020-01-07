@@ -10,13 +10,13 @@ export class ReactiveService {
   // Constant
   private _continentsUrl = '/api/continents';
   private _numberOfResultsList = [1, 3, 5, 7];
-  private _initialNumberOfResults;
+  private _initialNumberOfResults = 7;
   private _initialPage = 0;
 
   // Subjects
-  private _keysContinentAction$ = new BehaviorSubject<string>('');
-  private _numberOfResultsSelectAction$ = new BehaviorSubject<number>(this._initialNumberOfResults);
-  private _pageSelectAction$ = new BehaviorSubject<number>(this._initialPage);
+  searchKeysAction$ = new BehaviorSubject<string>('');
+  numberOfResultsSelectAction$ = new BehaviorSubject<number>(this._initialNumberOfResults);
+  pageSelectAction$ = new BehaviorSubject<number>(this._initialPage);
 
   // Private Observables
   private _continents$ = this.http.get<string[]>(this._continentsUrl).pipe(
@@ -25,8 +25,8 @@ export class ReactiveService {
 
   // Public Observables
   pagesAvailable$: Observable<number> = combineLatest(
-    this._keysContinentAction$,
-    this._numberOfResultsSelectAction$
+    this.searchKeysAction$,
+    this.numberOfResultsSelectAction$
   ).pipe(
     switchMap(
       ([keysContinent, numberOfResults]: [string, number]) =>
@@ -34,13 +34,14 @@ export class ReactiveService {
           map(continents => continents.filter(continent => continent.includes(keysContinent))),
           map((continents) => Math.ceil(continents.length / numberOfResults))
         )
-    )
+    ),
+    tap(() => this.pageSelectAction$.next(0)),
   );
 
-  continentsInPage$: Observable<string[]> = combineLatest(
-    this._keysContinentAction$,
-    this._numberOfResultsSelectAction$,
-    this._pageSelectAction$
+  updateContinents$: Observable<string[]> = combineLatest(
+    this.searchKeysAction$,
+    this.numberOfResultsSelectAction$,
+    this.pageSelectAction$
   ).pipe(
     switchMap(
         ([keysContinent, numberOfResults, page]: [string, number, number]) =>
@@ -64,16 +65,16 @@ export class ReactiveService {
 
   // Public function
   updateKeysContinent(keys: string | null): void {
-    this._keysContinentAction$.next(keys);
+    this.searchKeysAction$.next(keys);
     this.selectPage(this._initialPage);
   }
 
   selectPage(page: number | null): void {
-    this._pageSelectAction$.next(page);
+    this.pageSelectAction$.next(page);
   }
 
   selectNumberOfResults(numberOfResults: number | null): void {
-    this._numberOfResultsSelectAction$.next(numberOfResults);
+    this.numberOfResultsSelectAction$.next(numberOfResults);
     this.selectPage(this._initialPage);
   }
 

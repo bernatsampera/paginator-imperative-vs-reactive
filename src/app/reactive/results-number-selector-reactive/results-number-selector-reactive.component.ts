@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ReactiveService } from '../reactive.service';
 import { Observable } from 'rxjs';
 
@@ -7,22 +7,16 @@ import { Observable } from 'rxjs';
   templateUrl: './results-number-selector-reactive.component.html',
   styleUrls: ['./results-number-selector-reactive.component.scss']
 })
-export class ResultsNumberSelectorReactiveComponent implements OnInit {
+export class ResultsNumberSelectorReactiveComponent {
 
-  numberOfResultsSelected: number;
+  @Input() numberOfResultsList: Array<number>;
+  @Input() numberSelected$: Observable<number>;
 
-  constructor(private reactiveService: ReactiveService) { }
+  @Output() selectNumberEmitter: EventEmitter<number> = new EventEmitter();
 
-  ngOnInit() {
-    this.selectNumberOfResults(7);
-  }
+  constructor() { }
 
-  selectNumberOfResults(numberOfResults: number): void {
-    this.numberOfResultsSelected = numberOfResults;
-    this.reactiveService.selectNumberOfResults(numberOfResults);
-  }
-
-  getNumberOfResultsList(): number[] {
-    return this.reactiveService.getNumberOfResultsList();
+  selectNumberOfResults(num: number){
+    this.selectNumberEmitter.emit(num);
   }
 }

@@ -16,11 +16,11 @@ export class MainStateComponent implements OnInit {
 
   // Pagination
   pagesAvailable$: Observable<number> = this.stateService.pagesAvailable$;
-  selectedPage$: Observable<number> = this.stateService.page$;
 
   // Number Of Results
   numberOfResultsList: Array<number> = [1, 3, 5, 7];
-  numberSelected$: Observable<number> = this.stateService.numberOfResults$;
+
+  state$ = this.stateService.paginatorState$;
 
   constructor(
     private stateService: StateService

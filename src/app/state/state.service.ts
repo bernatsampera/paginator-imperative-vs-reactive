@@ -4,12 +4,16 @@ import { BehaviorSubject, combineLatest, Subject, merge, Observable, pipe, Unary
 import { tap, map, startWith, scan, shareReplay, pluck, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 interface PaginatorState {
+  continentsToDisplay: string[];
+  pagesAvailable: number;
   searchKeys: string;
   numberOfResults: number;
   page: number;
 }
 
 enum PaginatorStateKeys {
+  continentsToDisplay = 'continentsToDisplay',
+  pagesAvailable = 'pagesAvailable',
   searchKeys = 'searchKeys',
   numberOfResults = 'numberOfResults',
   page = 'page'
@@ -18,46 +22,51 @@ enum PaginatorStateKeys {
 @Injectable({
   providedIn: 'root'
 })
-export class StateService implements OnDestroy{
-  private onDestroy$ = new Subject();
-  private continentsUrl = '/api/continents';
-  private continents$: Observable<string[]> = this.http.get<string[]>(this.continentsUrl).pipe(
-    tap(console.log),
-    shareReplay(1)
-  );
+export class StateService {
 
   intitialPaginatorState: PaginatorState = {
+    continentsToDisplay: [],
+    pagesAvailable: 1,
     searchKeys: '',
     numberOfResults: 7,
     page: 0
   };
+
+  // Subjects
+  continentsToDisplaySubject$ = new Subject<string[]>();
+  pagesAvailableSubject$ = new Subject<number>();
 
   // UI Actions
   searchKeysAction$ = new Subject<string>();
   numberOfResultsSelectAction$ = new Subject<number>();
   pageSelectAction$ = new Subject<number>();
 
+  // All the Commands together
   paginatorCommands$ = merge(
-    this.searchKeysAction$.pipe(
-      tap(() => this.pageSelectAction$.next(0)),
-      map(str => ({ searchKeys: str })),
-    ),
-    this.numberOfResultsSelectAction$.pipe(
-      tap(() => this.pageSelectAction$.next(0)),
-      map(n => ({ numberOfResults: n })),
-    ),
-    this.pageSelectAction$.pipe(map(n => ({ page: n })))
+    this.continentsToDisplaySubject$.pipe(map(conts => ({ continentsToDisplay: conts}))),
+    this.pagesAvailableSubject$.pipe(map(n => ({ pagesAvailable: n}))),
+    this.searchKeysAction$.pipe(map(str => ({ searchKeys: str }))),
+    this.numberOfResultsSelectAction$.pipe(map(n => ({ numberOfResults: n }))),
+    this.pageSelectAction$.pipe(map(n => ({ page: n }))),
   );
 
+  // Current State of the Service
   paginatorState$: Observable<PaginatorState> = this.paginatorCommands$.pipe(
     startWith(this.intitialPaginatorState),
     scan((paginatorState: PaginatorState, command): PaginatorState => ({ ...paginatorState, ...command } as PaginatorState)),
     shareReplay(1)
   );
 
+  // Streams of the State Values
   keysSearch$ = this.paginatorState$.pipe(this.queryChange<PaginatorState, string>(PaginatorStateKeys.searchKeys));
   numberOfResults$ = this.paginatorState$.pipe(this.queryChange<PaginatorState, number>(PaginatorStateKeys.numberOfResults));
   page$ = this.paginatorState$.pipe(this.queryChange<PaginatorState, number>(PaginatorStateKeys.page));
+
+
+  private continentsUrl = '/api/continents';
+  private continents$: Observable<string[]> = this.http.get<string[]>(this.continentsUrl).pipe(
+    shareReplay(1)
+  );
 
   updateContinents$ = combineLatest([
     this.keysSearch$,
@@ -73,7 +82,8 @@ export class StateService implements OnDestroy{
             numberOfResults,
             page
           )
-      )
+      ),
+      tap(continents => this.continentsToDisplaySubject$.next(continents))
     );
 
   pagesAvailable$: Observable<number> = combineLatest([
@@ -85,15 +95,12 @@ export class StateService implements OnDestroy{
       map(
         ([keys, numberOfResults, continents]: [string, number, string[]]) =>
           Math.ceil(continents.filter(continent => continent.includes(keys)).length / numberOfResults)
-      )
+      ),
+      tap((pages) => this.pagesAvailableSubject$.next(pages)),
+      tap(() => this.pageSelectAction$.next(0))
     );
 
   constructor(private http: HttpClient) { }
-
-  ngOnDestroy() {
-    this.onDestroy$.next();
-  }
-
 
   // Private Functions
   private getContinentsInPage = (continents: string[], numberOfResults: number, page: number) =>

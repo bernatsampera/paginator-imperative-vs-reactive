@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ReactiveService } from '../reactive.service';
 import { Observable } from 'rxjs';
 
@@ -7,19 +7,16 @@ import { Observable } from 'rxjs';
   templateUrl: './pagination-reactive.component.html',
   styleUrls: ['./pagination-reactive.component.scss']
 })
-export class PaginationReactiveComponent implements OnInit {
+export class PaginationReactiveComponent {
   Arr = Array;
-  pagesAvailable: Observable<number> = this.reactiveService.pagesAvailable$;
-  pageSelected: number;
+  @Input() pagesAvailable$: Observable<number>;
+  @Input() selectedPage$: Observable<number>;
 
-  constructor(private reactiveService: ReactiveService) { }
+  @Output() selectPageEmitter = new EventEmitter<number>();
 
-  ngOnInit() {
-    this.selectPage(0);
-  }
+  constructor( ) { }
 
   selectPage(page: number): void {
-    this.pageSelected = page;
-    this.reactiveService.selectPage(page);
+    this.selectPageEmitter.emit(page);
   }
 }

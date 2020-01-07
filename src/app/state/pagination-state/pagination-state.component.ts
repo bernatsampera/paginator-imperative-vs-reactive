@@ -11,7 +11,7 @@ export class PaginationStateComponent {
 
   Arr = Array;
   @Input() pagesAvailable$: Observable<number>;
-  @Input() selectedPage$: Observable<number>;
+  @Input() selectedPage: number;
 
   @Output() selectPageEmitter = new EventEmitter<number>();
 
