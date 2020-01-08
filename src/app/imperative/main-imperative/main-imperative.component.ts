@@ -31,7 +31,7 @@ export class MainImperativeComponent implements OnInit {
     this.continentControl.valueChanges.subscribe(
       (continentKeys) => {
         this.imperativeService.setContinentKeys(continentKeys);
-        this.updateContinents(); // MANUAL CALL TO UPDATE CONTINENTS!!!
+        this.selectPage(0); // MANUAL CALL TO UPDATE PAGE AND CONTINENTS!!!
       }
     );
     this.initializeContinents();
@@ -43,8 +43,8 @@ export class MainImperativeComponent implements OnInit {
   }
 
   updateContinents() {
-    this.getNumberOfPages();
     this.continents = this.imperativeService.getContinentsToDisplayInPage();
+    this.getNumberOfPages();
   }
 
   getNumberOfPages() {
@@ -54,7 +54,7 @@ export class MainImperativeComponent implements OnInit {
   selectNumber(num: number) {
     this.numberSelected = num;
     this.imperativeService.setNumberOfResultsSelected(num);
-    this.updateContinents(); // MANUAL CALL TO UPDATE CONTINENTS!!!
+    this.selectPage(0); // MANUAL CALL TO UPDATE PAGE ANDCONTINENTS!!!
   }
 
   selectPage(page: number) {
