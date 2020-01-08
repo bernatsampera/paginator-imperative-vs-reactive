@@ -32,3 +32,10 @@ button.mat-flat-button {
 .mat-list-base {
    padding: 0px !important;
 }
+
+.mat-list-item-content {
+  border: 1px solid white;
+  border-radius: 2em;
+  margin-top: 10px;
+  width: fit-content;
+}
