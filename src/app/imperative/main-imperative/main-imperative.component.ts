@@ -1,9 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ImperativeService } from '../imperative.service';
-import { Subscription } from 'rxjs';
-import { EventEmitter } from 'events';
-import { PaginationImperativeComponent } from '../pagination-imperative/pagination-imperative.component';
 
 @Component({
   selector: 'app-main-imperative',
