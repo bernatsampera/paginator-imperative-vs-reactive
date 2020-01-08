@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class PaginationStateComponent {
 
   Arr = Array;
-  @Input() pagesAvailable$: Observable<number>;
+  @Input() pagesAvailable: number;
   @Input() selectedPage: number;
 
   @Output() selectPageEmitter = new EventEmitter<number>();

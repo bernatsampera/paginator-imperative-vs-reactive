@@ -10,10 +10,10 @@
   <br />
   <mat-card >
     <mat-card-subtitle> Pages </mat-card-subtitle>
-    <app-pagination-state  [pagesAvailable$]="pagesAvailable$" [selectedPage]="vm.page" (selectPageEmitter)="selectPage($event)" ></app-pagination-state>
+    <app-pagination-state  [pagesAvailable]="vm.pagesAvailable" [selectedPage]="vm.page" (selectPageEmitter)="selectPage($event)" ></app-pagination-state>
   </mat-card>
 
   <mat-list role="list" *ngIf="true" >
-    <mat-list-item *ngFor="let continent of continents$ | async" > {{ continent }} </mat-list-item>
+    <mat-list-item *ngFor="let continent of vm.continentsToDisplay" > {{ continent }} </mat-list-item>
   </mat-list>
 </div>

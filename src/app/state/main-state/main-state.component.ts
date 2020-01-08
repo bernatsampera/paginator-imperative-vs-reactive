@@ -12,10 +12,10 @@ import { ConnectableObservable, Observable } from 'rxjs';
 export class MainStateComponent implements OnInit {
   // Main
   continentControl = new FormControl();
-  continents$ = this.stateService.updateContinents$;
+  // continents$ = this.stateService.updateContinents$;
 
   // Pagination
-  pagesAvailable$: Observable<number> = this.stateService.pagesAvailable$;
+  // pagesAvailable$: Observable<number> = this.stateService.pagesAvailable$;
 
   // Number Of Results
   numberOfResultsList: Array<number> = [1, 3, 5, 7];

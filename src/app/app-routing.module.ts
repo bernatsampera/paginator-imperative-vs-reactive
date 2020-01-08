@@ -22,7 +22,7 @@ const routes: Routes = [
       },
   //   ],
   // },
-  { path: '**', redirectTo: 'imperative'}
+  { path: '**', redirectTo: 'state'}
 ];
 
 @NgModule({
