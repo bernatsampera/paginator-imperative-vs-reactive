@@ -8,7 +8,9 @@ import {
   scan,
   shareReplay,
   pluck,
-  distinctUntilChanged
+  distinctUntilChanged,
+  last,
+  distinct
 } from "rxjs/operators";
 import { state } from "@angular/animations";
 
@@ -72,6 +74,7 @@ export class StateService {
   // Current State of the Service
   paginatorState$: Observable<PaginatorState> = this.paginatorCommands$.pipe(
     startWith(this.intitialPaginatorState),
+    tap((command) => PaginatorStateKeys.page in command ? null :this.pageSelectAction$.next(0)),
     scan(
       (paginatorState: PaginatorState, command): PaginatorState =>
         ({
@@ -115,7 +118,7 @@ export class StateService {
       .slice(
         this.getFirstContinent(numberOfResults, page),
         this.getLastContinent(numberOfResults, page)
-      );
+      )
 
   private getFirstContinent = (numberOfResults: number, page: number) =>
     numberOfResults * page;
