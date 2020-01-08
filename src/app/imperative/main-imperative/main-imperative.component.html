@@ -1,16 +1,16 @@
-<div class="container">
+<div class="container" >
   <mat-form-field >
     <input matInput placeholder="Search Continent" [formControl]="continentControl" autocomplete="off">
   </mat-form-field>
 
   <mat-card>
     <mat-card-subtitle> Select the number of Results per page </mat-card-subtitle>
-    <app-results-number-selector-imperative (numberOfResultsSelectedEmitter)="updateContinents()"></app-results-number-selector-imperative>
+    <app-results-number-selector-imperative (numberOfResultsSelectedEmitter)="selectNumber($event)"  [numberOfResultsList]="numberOfResultsList" [numberSelected]="numberSelected" (selectNumberEmitter)="selectNumber($event)"></app-results-number-selector-imperative>
   </mat-card>
   <br />
   <mat-card >
     <mat-card-subtitle > Pages </mat-card-subtitle>
-    <app-pagination-imperative (pageSelectedEmitter)="updateContinents()" [numberOfPages]="numberOfPages" ></app-pagination-imperative>
+    <app-pagination-imperative (selectPageEmitter)="selectPage($event)" [selectedPage]="selectedPage" [pagesAvailable]="numberOfPages" ></app-pagination-imperative>
   </mat-card>
 
   <mat-list role="list" *ngIf="continents" >

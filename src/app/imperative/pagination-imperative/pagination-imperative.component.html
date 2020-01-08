@@ -1,8 +1,8 @@
 <button
   mat-flat-button
   color="accent"
-  *ngFor="let page of Arr(numberOfPages); let i = index"
-  [ngClass]="{ 'selected': i === pageSelected }"
+  *ngFor="let page of Arr(pagesAvailable); let i = index"
+  [ngClass]="{ 'selected': i === selectedPage }"
   (click)="selectPage(i)"
 >
   {{ i + 1 }}

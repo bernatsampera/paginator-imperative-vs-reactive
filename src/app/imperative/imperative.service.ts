@@ -39,9 +39,12 @@ export class ImperativeService {
   // Get the continents that will currently be available to the user
   getContinentsToDisplayInPage(): string[] {
     const firstIndex = this.numberOfResultsSelected * this.pageSelected;
-    // console.log(`numberOfResultsSelected: ${this.numberOfResultsSelected},
-    // pageSelected: ${this.pageSelected}, continents: ${this.getContinentsToDisplay()}
-    // firstIndex: ${firstIndex}`);
+    console.log(`
+    numberOfResultsSelected: ${this.numberOfResultsSelected},
+    pageSelected: ${this.pageSelected},
+    continents: ${this.getContinentsToDisplay()},
+    firstIndex: ${firstIndex}`
+    );
     return this.getContinentsToDisplay()
     .slice(firstIndex, firstIndex + this.numberOfResultsSelected);
   }

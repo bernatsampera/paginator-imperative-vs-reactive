@@ -1,31 +1,24 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ImperativeService } from '../imperative.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pagination-imperative',
   templateUrl: './pagination-imperative.component.html',
   styleUrls: ['./pagination-imperative.component.scss']
 })
-export class PaginationImperativeComponent implements OnInit {
-  // Used to call the function updateContinents in the parent
-  @Output() pageSelectedEmitter = new EventEmitter();
-  // Array Type and number of pages to display to to make the *ngFor loop
+export class PaginationImperativeComponent {
+
   Arr = Array;
-  @Input() numberOfPages: number;
-  // Page selected
-  pageSelected: number;
+  @Input() pagesAvailable: number;
+  @Input() selectedPage: number;
 
-  constructor(
-    private imperativeService: ImperativeService
-  ) { }
+  @Output() selectPageEmitter = new EventEmitter<number>();
 
-  ngOnInit() {
-    this.pageSelected = this.imperativeService.getPageSelected();
+  constructor( ) { }
+
+  selectPage(page: number): void {
+    this.selectPageEmitter.emit(page);
   }
 
-  selectPage(pageSelected: number) {
-    this.pageSelected = pageSelected;
-    this.imperativeService.setPageSelected(pageSelected);
-    this.pageSelectedEmitter.emit('');
-  }
 }
