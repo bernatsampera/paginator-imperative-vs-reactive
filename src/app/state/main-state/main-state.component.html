@@ -8,14 +8,14 @@
   <!-- NUMBER OF RESULTS -->
   <mat-card>
     <mat-card-subtitle> Select the number of Results per page </mat-card-subtitle>
-    <app-results-number-selector-state [numberOfResultsList]="numberOfResultsList" [numberSelected]="vm.numberOfResults" (selectNumberEmitter)="selectNumber($event)" ></app-results-number-selector-state>
+    <app-number-of-results [numberOfResultsList]="numberOfResultsList" [numberSelected]="vm.numberOfResults" (selectNumberEmitter)="selectNumber($event)" ></app-number-of-results>
   </mat-card>
   <br />
 
   <!-- PAGINATION -->
   <mat-card >
     <mat-card-subtitle> Pages </mat-card-subtitle>
-    <app-pagination-state  [pagesAvailable]="vm.pagesAvailable" [selectedPage]="vm.page" (selectPageEmitter)="selectPage($event)" ></app-pagination-state>
+    <app-pagination [pagesAvailable]="vm.pagesAvailable" [selectedPage]="vm.page" (selectPageEmitter)="selectPage($event)" ></app-pagination>
   </mat-card>
 
   <!-- KEY SEARCH INPUT FIELD -->

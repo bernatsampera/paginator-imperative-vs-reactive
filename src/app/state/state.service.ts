@@ -62,7 +62,6 @@ export class StateService {
   // Observable of the Paginator State
   public paginatorState$: Observable<PaginatorState> = this.paginatorCommands$.pipe(
     startWith(this.intitialPaginatorState),
-    // Goes to the first page whenever there's a change in continents, numberOfResults, searchKeys
     tap(command =>
       PaginatorStateKeys.page in command ? null : this.pageSelectAction$.next(0)
     ),

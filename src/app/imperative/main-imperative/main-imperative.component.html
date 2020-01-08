@@ -8,14 +8,14 @@
   <!-- NUMBER OF RESULTS -->
   <mat-card>
     <mat-card-subtitle> Select the number of Results per page </mat-card-subtitle>
-    <app-results-number-selector-imperative (numberOfResultsSelectedEmitter)="selectNumber($event)"  [numberOfResultsList]="numberOfResultsList" [numberSelected]="numberSelected" (selectNumberEmitter)="selectNumber($event)"></app-results-number-selector-imperative>
+    <app-number-of-results (numberOfResultsSelectedEmitter)="selectNumber($event)"  [numberOfResultsList]="numberOfResultsList" [numberSelected]="numberSelected" (selectNumberEmitter)="selectNumber($event)"></app-number-of-results>
   </mat-card>
   <br />
 
   <!-- PAGINATION -->
   <mat-card >
     <mat-card-subtitle > Pages </mat-card-subtitle>
-    <app-pagination-imperative (selectPageEmitter)="selectPage($event)" [selectedPage]="selectedPage" [pagesAvailable]="numberOfPages" ></app-pagination-imperative>
+    <app-pagination (selectPageEmitter)="selectPage($event)" [selectedPage]="selectedPage" [pagesAvailable]="numberOfPages" ></app-pagination>
   </mat-card>
 
   <!-- LIST OF CONTINENTS -->

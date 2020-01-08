@@ -7,14 +7,14 @@
   <!-- NUMBER OF RESULTS -->
   <mat-card>
     <mat-card-subtitle> Select the number of Results per page </mat-card-subtitle>
-    <app-results-number-selector-reactive [numberOfResultsList]="numberOfResultsList" [numberSelected$]="numberSelected$" (selectNumberEmitter)="selectNumber($event)" ></app-results-number-selector-reactive>
+    <app-number-of-results [numberOfResultsList]="numberOfResultsList" [numberSelected]="numberSelected$ | async" (selectNumberEmitter)="selectNumber($event)" ></app-number-of-results>
   </mat-card>
   <br />
 
   <!-- PAGINATION -->
   <mat-card >
     <mat-card-subtitle> Pages </mat-card-subtitle>
-    <app-pagination-reactive  [pagesAvailable$]="pagesAvailable$" [selectedPage$]="selectedPage$" (selectPageEmitter)="selectPage($event)" ></app-pagination-reactive>
+    <app-pagination  [pagesAvailable]="pagesAvailable$ | async" [selectedPage]="selectedPage$ | async" (selectPageEmitter)="selectPage($event)" ></app-pagination>
   </mat-card>
 
   <!-- LIST OF CONTINENTS -->
