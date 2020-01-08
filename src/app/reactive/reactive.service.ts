@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { combineLatest, Observable, BehaviorSubject, of } from 'rxjs';
-import { tap, map, filter, switchMap, catchError, shareReplay } from 'rxjs/operators';
+import { combineLatest, Observable, BehaviorSubject } from 'rxjs';
+import { tap, map, switchMap, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,6 @@ import { tap, map, filter, switchMap, catchError, shareReplay } from 'rxjs/opera
 export class ReactiveService {
   // Constant
   private _continentsUrl = '/api/continents';
-  private _numberOfResultsList = [1, 3, 5, 7];
   private _initialNumberOfResults = 7;
   private _initialPage = 0;
 
@@ -76,9 +75,5 @@ export class ReactiveService {
   selectNumberOfResults(numberOfResults: number | null): void {
     this.numberOfResultsSelectAction$.next(numberOfResults);
     this.selectPage(this._initialPage);
-  }
-
-  getNumberOfResultsList(): number[] {
-    return this._numberOfResultsList;
   }
 }

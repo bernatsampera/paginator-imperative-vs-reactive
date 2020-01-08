@@ -10,24 +10,18 @@ import { ConnectableObservable, Observable } from 'rxjs';
   styleUrls: ['./main-state.component.scss']
 })
 export class MainStateComponent implements OnInit {
-  // Main
   continentControl = new FormControl();
-  // continents$ = this.stateService.updateContinents$;
-
-  // Pagination
-  // pagesAvailable$: Observable<number> = this.stateService.pagesAvailable$;
-
-  // Number Of Results
   numberOfResultsList: Array<number> = [1, 3, 5, 7];
 
   state$ = this.stateService.paginatorState$;
 
   constructor(
     private stateService: StateService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
+    // Subscribe to Input Keys Change and update the value in the state
+    // Needs to be converted from cold to hot to start receiving the values automatically
     (
       this.continentControl.valueChanges.pipe(
       tap(this.stateService.searchKeysAction$),

@@ -1,18 +1,24 @@
 <div class="container" >
+
+  <!-- KEY SEARCH INPUT FIELD -->
   <mat-form-field >
     <input matInput placeholder="Search Continent" [formControl]="continentControl" autocomplete="off">
   </mat-form-field>
 
+  <!-- NUMBER OF RESULTS -->
   <mat-card>
     <mat-card-subtitle> Select the number of Results per page </mat-card-subtitle>
     <app-results-number-selector-imperative (numberOfResultsSelectedEmitter)="selectNumber($event)"  [numberOfResultsList]="numberOfResultsList" [numberSelected]="numberSelected" (selectNumberEmitter)="selectNumber($event)"></app-results-number-selector-imperative>
   </mat-card>
   <br />
+
+  <!-- PAGINATION -->
   <mat-card >
     <mat-card-subtitle > Pages </mat-card-subtitle>
     <app-pagination-imperative (selectPageEmitter)="selectPage($event)" [selectedPage]="selectedPage" [pagesAvailable]="numberOfPages" ></app-pagination-imperative>
   </mat-card>
 
+  <!-- LIST OF CONTINENTS -->
   <mat-list role="list" *ngIf="continents" >
     <mat-list-item *ngFor="let continent of continents" > {{ continent }} </mat-list-item>
   </mat-list>

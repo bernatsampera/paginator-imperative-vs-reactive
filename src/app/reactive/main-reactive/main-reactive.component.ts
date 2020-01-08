@@ -28,6 +28,8 @@ export class MainReactiveComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // Subscribe to Input Keys Change and update the value in the state
+    // Needs to be converted from cold to hot to start receiving the values automatically
     (this.continentControl.valueChanges.pipe(
       tap(this.reactiveService.searchKeysAction$),
       publish()
@@ -35,12 +37,10 @@ export class MainReactiveComponent implements OnInit {
   }
 
   selectPage(page: number) {
-    console.log(page);
     this.reactiveService.pageSelectAction$.next(page);
   }
 
   selectNumber(num: number) {
-    console.log(num);
     this.reactiveService.numberOfResultsSelectAction$.next(num);
   }
 
