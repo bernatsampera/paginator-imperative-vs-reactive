@@ -20,9 +20,13 @@ const routes: Routes = [
         path: 'state',
         loadChildren: './state/state.module#StateModule'
       },
+      {
+        path: 'ephemeral',
+        loadChildren: './ephemeral/ephemeral.module#EphemeralModule'
+      },
   //   ],
   // },
-  { path: '**', redirectTo: 'state'}
+  { path: '**', redirectTo: 'ephemeral'}
 ];
 
 @NgModule({
