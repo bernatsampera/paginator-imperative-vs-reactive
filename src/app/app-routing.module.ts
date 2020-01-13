@@ -24,9 +24,13 @@ const routes: Routes = [
         path: 'ephemeral',
         loadChildren: './ephemeral/ephemeral.module#EphemeralModule'
       },
+      {
+        path: 'eph-vm',
+        loadChildren: './eph-vm/eph-vm.module#EphVmModule'
+      },
   //   ],
   // },
-  { path: '**', redirectTo: 'ephemeral'}
+  { path: '**', redirectTo: 'eph-vm'}
 ];
 
 @NgModule({
