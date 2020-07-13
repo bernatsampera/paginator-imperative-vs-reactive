@@ -32,7 +32,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 
 
-### Angular docs to run the application
+# Angular docs to run the application
 
 ## Code scaffolding
 
